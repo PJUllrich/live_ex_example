@@ -1,0 +1,3 @@
+<section class="phx-hero">
+  <%= Phoenix.LiveView.live_render(@conn, LiveViewTestWeb.ParentLive, session: %{}) %>
+</section>

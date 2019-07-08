@@ -1,0 +1,15 @@
+/* This file is for your main application css. */
+
+@import "./phoenix.css";
+
+#parent, #child {
+    padding-top: 2rem;
+}
+
+#parent {
+    border: 1px dashed red;
+}
+
+#child {
+    border: 1px dashed green;
+}
