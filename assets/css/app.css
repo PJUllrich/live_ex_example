@@ -6,10 +6,8 @@
     padding-top: 2rem;
 }
 
-#parent {
-    border: 1px dashed red;
-}
-
 #child {
-    border: 1px dashed green;
+    margin-top: 2rem;
+    box-shadow: 0.5rem 0.5rem 3rem 1rem lightgray;
+    border-radius: 1rem;
 }

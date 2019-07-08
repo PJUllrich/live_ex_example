@@ -1,7 +1,7 @@
 <div id="parent">
     <h1>This is Parent</h1>
-    <h3>State is: <%= @state %></h3>
-    <button phx-click="toggle_state">Toggle from Parent</button>
+    <h3>State is: <%= @state.toggle %></h3>
+    <button phx-click="toggle">Toggle from Parent</button>
 
     <%= Phoenix.LiveView.live_render(@socket, LiveViewTestWeb.ChildLive, session: assigns) %>
 </div>
