@@ -16,5 +16,8 @@ defmodule LiveViewTestWeb.ChildLive do
     {:noreply, socket}
   end
 
+  # Add this line so that the Store can handle Actions.
+  # Write any `handle_info` logic before this.
   defdelegate handle_info(msg, socket), to: Store
+
 end
