@@ -1,0 +1,11 @@
+<div class="category phx-hero">
+    <%= for category <- @categories do %>
+        <button 
+            phx-click="filter_by_category" 
+            value="<%= category.id %>" 
+            class="<%= if category.id in assigns.filter, do: "active" %>"
+            >
+            <%= category.name %>
+        </button>
+    <% end %>
+</div>

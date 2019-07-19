@@ -3,72 +3,100 @@ defmodule LiveViewTestWeb.Store do
   A Vuex-inspired Flux Store for managing the State of a Phoenix LiveView application.
   """
 
-  use Phoenix.LiveView
+  use LiveEx
+
+  @behaviour LiveEx
+  @type socket :: Phoenix.LiveView.Socket.t()
 
   @initial_state %{
-    toggle: false
+    items: [],
+    categories: [],
+    filter: []
   }
 
-  @doc """
-  Configures the socket with an initial setup.
-
-  The `pid` of the parent process is stored in the `socket.assigns` so that
-  Child processes can dispatch Actions on the parents's Store.
-  """
   def init(socket) do
+    state = Map.merge(@initial_state, %{items: get_items(), categories: get_categories()})
+    init(state, socket)
+  end
+
+  # Actions
+
+  def handle_info(%{type: "filter_by_category"} = action, socket) do
+    if action.payload in socket.assigns.filter do
+      commit(:remove_filter, action.payload, socket)
+    else
+      commit(:add_filter, action.payload, socket)
+    end
+  end
+
+  def handle_info(%{type: "filter_by_count"} = action, socket) do
+    commit(:filter_by_count, action.payload, socket)
+  end
+
+  # Mutations
+
+  def add_filter(category_id, socket) do
+    filter = socket.assigns.filter ++ [category_id]
+    items = filter(filter)
+
     socket
-    |> assign(:state, @initial_state)
-    |> assign(:pid, self())
+    |> assign(:items, items)
+    |> assign(:filter, filter)
   end
 
-  @doc """
-  Joins a child process to the Store of a parent process.
-  """
-  def join(params, socket) do
+  def remove_filter(category_id, socket) do
+    filter = Enum.filter(socket.assigns.filter, fn id -> id != category_id end)
+    items = filter(filter)
+
     socket
-    |> assign(:state, params.state)
-    |> assign(:pid, params.pid)
+    |> assign(:items, items)
+    |> assign(:filter, filter)
   end
 
-  @doc """
-  Dispatch an Action with an `event`-type, optional payload, and a LiveView Socket.
-  """
-  def dispatch(event, payload \\ %{}, socket) do
-    event = %{
-      action: String.to_atom(event),
-      payload: payload
-    }
-    send(socket.assigns.pid, event)
+  def filter_by_count(count, socket) do
+    items =
+      if !is_nil(count) do
+        Enum.filter(get_items(), fn item -> item.count >= count end)
+      else
+        get_items()
+      end
+
+    assign(socket, :items, items)
   end
 
-  defp commit(event, socket) do
-    apply(__MODULE__, event.action, [socket, event.payload])
+  # Helpers
+
+  defp filter(filter) do
+    if length(filter) > 0 do
+      Enum.filter(get_items(), fn item -> item.category_id in filter end)
+    else
+      get_items()
+    end
   end
 
-  defp mutate(mutation, socket) do
-    new_state = Map.merge(socket.assigns.state, mutation)
-    assign(socket, :state, new_state)
+  defp get_items do
+    [
+      %{name: "Spoon", count: 5, category_id: 1},
+      %{name: "Fork", count: 5, category_id: 1},
+      %{name: "Couch", count: 1, category_id: 1},
+      %{name: "Laptop", count: 1, category_id: 2},
+      %{name: "Coffee Machine", count: 1, category_id: 2},
+      %{name: "Fire Extinguisher", count: 1, category_id: 3},
+      %{name: "Safety Vest", count: 2, category_id: 3},
+      %{name: "Friends", count: 0, category_id: 3},
+      %{name: "Wheels", count: 5, category_id: 3},
+      %{name: "Suitcase", count: 1, category_id: 4},
+      %{name: "Kindle", count: 1, category_id: 4},
+      %{name: "Pair of Shoes", count: 7, category_id: 4}
+    ]
   end
 
-  # ACTIONS
-
-  @doc """
-  Handles the :toggle Action. Put any business or async Logic here before
-  calling the `commit` function, which commits the Mutation.
-  """
-  def handle_info(%{action: :toggle} = event, socket) do
-    socket = commit(event, socket)
-    {:noreply, socket}
-  end
-
-  # MUTATIONS
-
-  @doc """
-  Handles the :toggle Mutation. Toggles the variable state.toggle from
-  `true` to `false` and vice versa.
-  """
-  def toggle(socket, _args) do
-    mutation = %{toggle: !socket.assigns.state.toggle}
-    mutate(mutation, socket)
+  defp get_categories do
+    [
+      %{id: 1, name: "House"},
+      %{id: 2, name: "Office"},
+      %{id: 3, name: "Car"},
+      %{id: 4, name: "General"}
+    ]
   end
 end

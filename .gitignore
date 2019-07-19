@@ -41,6 +41,10 @@ npm-debug.log
 .idea/
 .env
 
+/.elixir_ls/
+
+/assets/node_modules/
+
 Thumbs.db
 ehthumbs.db
 ehthumbs_vista.db

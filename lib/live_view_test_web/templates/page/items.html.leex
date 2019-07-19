@@ -1,0 +1,4 @@
+<div id="root">
+    <%= Phoenix.LiveView.live_render(@socket, LiveViewTestWeb.CategoryLive, session: Map.take(assigns, [:pid, :categories, :filter])) %>
+    <%= Phoenix.LiveView.live_render(@socket, LiveViewTestWeb.TableLive, session: Map.merge(Map.take(assigns, [:pid, :items, :categories]), %{category_id: 1})) %>
+</div>

@@ -1,0 +1,14 @@
+<div id="items" class="phx-hero">
+    <form phx-change="filter_by_count">
+        <input type="number" name="count" placeholder="Filter by Count">
+    </form>
+    <table>
+        <%= for item <- @items do %>
+            <tr>
+                <td><%= item.name %></td>
+                <td><%= item.count %></td>
+                <td><%= get_category(@categories, item.category_id).name %></td>
+            </tr>
+        <% end %>
+    </table>
+</div>
