@@ -1,9 +1,12 @@
 <div class="category phx-hero">
+    <h3>Filter by Category</h3>
+    <h4>Filter: <%= inspect @filter %></h4>
+    <h4>Count: <%= @min_count %></h4>
     <%= for category <- @categories do %>
         <button 
             phx-click="filter_by_category" 
-            value="<%= category.id %>" 
-            class="<%= if category.id in assigns.filter, do: "active" %>"
+            phx-value-cat-id="<%= category.id %>" 
+            class="<%= if category.id in @filter, do: "active" %>"
             >
             <%= category.name %>
         </button>

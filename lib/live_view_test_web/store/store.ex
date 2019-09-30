@@ -11,7 +11,8 @@ defmodule LiveViewTestWeb.Store do
   @initial_state %{
     items: [],
     categories: [],
-    filter: []
+    filter: [],
+    min_count: 0
   }
 
   def init(socket) do
@@ -37,41 +38,37 @@ defmodule LiveViewTestWeb.Store do
 
   def add_filter(category_id, socket) do
     filter = socket.assigns.filter ++ [category_id]
-    items = filter(filter)
-
-    socket
-    |> assign(:items, items)
-    |> assign(:filter, filter)
+    apply_filter(socket, :filter, filter)
   end
 
   def remove_filter(category_id, socket) do
     filter = Enum.filter(socket.assigns.filter, fn id -> id != category_id end)
-    items = filter(filter)
-
-    socket
-    |> assign(:items, items)
-    |> assign(:filter, filter)
+    apply_filter(socket, :filter, filter)
   end
 
   def filter_by_count(count, socket) do
-    items =
-      if !is_nil(count) do
-        Enum.filter(get_items(), fn item -> item.count >= count end)
-      else
-        get_items()
-      end
-
-    assign(socket, :items, items)
+    count = if is_nil(count), do: 0, else: count
+    apply_filter(socket, :min_count, count)
   end
 
   # Helpers
 
-  defp filter(filter) do
-    if length(filter) > 0 do
-      Enum.filter(get_items(), fn item -> item.category_id in filter end)
-    else
-      get_items()
-    end
+  defp apply_filter(socket, key, value) do
+    socket = assign(socket, key, value)
+    items = filter(socket)
+
+    assign(socket, :items, items)
+  end
+
+  defp filter(socket) do
+    category_filter =
+      if socket.assigns.filter == [],
+        do: Enum.map(socket.assigns.categories, & &1.id),
+        else: socket.assigns.filter
+
+    get_items()
+    |> Enum.filter(&(&1.category_id in category_filter))
+    |> Enum.filter(&(&1.count >= socket.assigns.min_count))
   end
 
   defp get_items do

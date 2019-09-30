@@ -1,2 +1,0 @@
-<%= Phoenix.LiveView.live_render(@conn, LiveViewTestWeb.ViewLive, session: %{}) %>
-

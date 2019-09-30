@@ -11,9 +11,13 @@ defmodule LiveViewTestWeb.CategoryLive do
     {:ok, Store.init(session, socket)}
   end
 
-  def handle_event("filter_by_category" = event, value, socket) do
-    category_id = String.to_integer(value)
-    Store.dispatch(event, category_id, socket)
+  def handle_event(
+        "filter_by_category",
+        %{"cat-id" => cat_id},
+        socket
+      ) do
+    category_id = String.to_integer(cat_id)
+    Store.dispatch("filter_by_category", category_id, socket)
     {:noreply, socket}
   end
 end

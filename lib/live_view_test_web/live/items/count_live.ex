@@ -1,10 +1,10 @@
-defmodule LiveViewTestWeb.TableLive do
+defmodule LiveViewTestWeb.CountLive do
   use Phoenix.LiveView
 
   alias LiveViewTestWeb.Store
 
   def render(assigns) do
-    Phoenix.View.render(LiveViewTestWeb.PageView, "table.html", assigns)
+    Phoenix.View.render(LiveViewTestWeb.PageView, "count.html", assigns)
   end
 
   def mount(session, socket) do
