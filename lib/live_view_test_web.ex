@@ -1,12 +1,12 @@
-defmodule LiveViewTestWeb do
+defmodule LiveViewExampleWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, views, channels and so on.
 
   This can be used in your application as:
 
-      use LiveViewTestWeb, :controller
-      use LiveViewTestWeb, :view
+      use LiveViewExampleWeb, :controller
+      use LiveViewExampleWeb, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -19,37 +19,43 @@ defmodule LiveViewTestWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: LiveViewTestWeb
+      use Phoenix.Controller, namespace: LiveViewExampleWeb
 
       import Plug.Conn
-      import LiveViewTestWeb.Gettext
+      import LiveViewExampleWeb.Gettext
       import Phoenix.LiveView.Controller, only: [live_render: 3]
-      alias LiveViewTestWeb.Router.Helpers, as: Routes
+      alias LiveViewExampleWeb.Router.Helpers, as: Routes
     end
   end
 
   def view do
     quote do
       use Phoenix.View,
-        root: "lib/live_view_test_web/templates",
-        namespace: LiveViewTestWeb
+        root: "lib/live_view_example_web/templates",
+        namespace: LiveViewExampleWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 1, get_flash: 2, view_module: 1]
 
-      # Use all HTML functionality (forms, tags, etc)
-      use Phoenix.HTML
+      import Phoenix.LiveView, only: [connected?: 1]
 
-      import LiveViewTestWeb.ErrorHelpers
-      import LiveViewTestWeb.Gettext
-      import Phoenix.LiveView, only: [live_render: 2, live_render: 3, live_link: 1, live_link: 2]
-      alias LiveViewTestWeb.Router.Helpers, as: Routes
+      unquote(view_helpers())
+    end
+  end
+
+  def live_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {LiveViewExampleWeb.LayoutView, "live.html"}
+
+      unquote(view_helpers())
     end
   end
 
   def router do
     quote do
       use Phoenix.Router
+
       import Plug.Conn
       import Phoenix.LiveView.Router
       import Phoenix.Controller
@@ -59,7 +65,24 @@ defmodule LiveViewTestWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import LiveViewTestWeb.Gettext
+      import LiveViewExampleWeb.Gettext
+    end
+  end
+
+  defp view_helpers do
+    quote do
+      # Use all HTML functionality (forms, tags, etc)
+      use Phoenix.HTML
+
+      # Import LiveView helpers (live_render, live_component, live_patch, etc)
+      import Phoenix.LiveView.Helpers
+
+      # Import basic rendering functionality (render, render_layout, etc)
+      import Phoenix.View
+
+      import LiveViewExampleWeb.ErrorHelpers
+      import LiveViewExampleWeb.Gettext
+      alias LiveViewExampleWeb.Router.Helpers, as: Routes
     end
   end
 

@@ -1,0 +1,15 @@
+<div id="root">
+  <%= live_render(@socket, LiveViewExampleWeb.CategoryLive, id: "category-live-#{length(@filter)}", session: %{"topic" => @topic, "filter" => @filter, "categories" => @categories}) %>
+  <%= live_render(@socket, LiveViewExampleWeb.CountLive, id: "count-live-#{@min_count}", session: %{"topic" => @topic, "filter" => @filter, "min_count" => @min_count}) %>
+  <div class="phx-hero">
+    <table>
+      <%= for item <- @items do %>
+        <tr>
+          <td><%= item.name %></td>
+          <td><%= item.count %></td>
+          <td><%= get_category(@categories, item.category_id).name %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

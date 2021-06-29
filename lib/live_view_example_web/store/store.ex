@@ -1,4 +1,4 @@
-defmodule LiveViewTestWeb.Store do
+defmodule LiveViewExampleWeb.Store do
   @moduledoc """
   A Vuex-inspired Flux Store for managing the State of a Phoenix LiveView application.
   """

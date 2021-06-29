@@ -1,4 +1,4 @@
-defmodule LiveViewTestWeb.ChannelCase do
+defmodule LiveViewExampleWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -21,7 +21,7 @@ defmodule LiveViewTestWeb.ChannelCase do
       use Phoenix.ChannelTest
 
       # The default endpoint for testing
-      @endpoint LiveViewTestWeb.Endpoint
+      @endpoint LiveViewExampleWeb.Endpoint
     end
   end
 

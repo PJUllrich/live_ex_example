@@ -1,4 +1,4 @@
-defmodule LiveViewTestWeb.ErrorHelpers do
+defmodule LiveViewExampleWeb.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """
@@ -36,9 +36,9 @@ defmodule LiveViewTestWeb.ErrorHelpers do
     # should be written to the errors.po file. The :count option is
     # set by Ecto and indicates we should also apply plural rules.
     if count = opts[:count] do
-      Gettext.dngettext(LiveViewTestWeb.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(LiveViewExampleWeb.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(LiveViewTestWeb.Gettext, "errors", msg, opts)
+      Gettext.dgettext(LiveViewExampleWeb.Gettext, "errors", msg, opts)
     end
   end
 end

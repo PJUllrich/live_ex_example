@@ -1,0 +1,23 @@
+<header>
+  <button
+    phx-click="change_view"
+    phx-value-index="0"
+    class="<%= if @view == 0, do: "active" %>"
+  >
+    Items
+  </button>
+  <button
+    phx-click="change_view"
+    phx-value-index="1"
+    class="<%= if @view == 1, do: "active" %>"
+  >
+    Categories
+  </button>
+</header>
+<div class="container">
+  <%= if @view == 0 do %>
+    <%= live_render(@socket, LiveViewExampleWeb.ItemsLive, id: "items-live") %>
+  <% else %>
+    <h2>Other View here</h2>
+  <% end %>
+</div>

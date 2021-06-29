@@ -1,5 +1,5 @@
-defmodule LiveViewTestWeb.PageView do
-  use LiveViewTestWeb, :view
+defmodule LiveViewExampleWeb.PageView do
+  use LiveViewExampleWeb, :view
 
   def get_category(categories, category_id) do
     Enum.find(categories, fn cat -> cat.id == category_id end)
