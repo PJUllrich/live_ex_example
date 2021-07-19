@@ -8,12 +8,7 @@ defmodule LiveViewExampleWeb.ItemsLive do
   end
 
   def mount(_params, _session, socket) do
-    socket =
-      socket
-      |> assign(:topic, "live-ex-example-store-#{inspect(self())}")
-      |> Store.init()
-
-    {:ok, socket}
+    {:ok, Store.init(socket)}
   end
 
   defdelegate handle_info(msg, socket), to: Store

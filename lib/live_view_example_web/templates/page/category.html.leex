@@ -8,4 +8,10 @@
       <%= category.name %>
     </button>
   <% end %>
+  <h3>Selected Categories:</h3>
+  <ul>
+    <%= for category_id <- @filter do %>
+      <li><%= category_id %></li>
+    <% end %>
+  </ul>
 </div>

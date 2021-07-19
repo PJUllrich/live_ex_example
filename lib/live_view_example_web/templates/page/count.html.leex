@@ -1,11 +1,7 @@
 <div id="items" class="phx-hero">
-  <h3>Filter by Count</h3>
+  <h2>Filter by Count</h2>
+  <h3>Current minimum count: <%= @min_count %></h3>
   <form phx-change="filter_by_count">
-    <input
-      type="number"
-      name="count"
-      value="<%= @min_count %>"
-      placeholder="Filter by Count"
-    />
+    <input type="number" name="count" value="<%= @min_count %>" placeholder="Filter by Count" />
   </form>
 </div>

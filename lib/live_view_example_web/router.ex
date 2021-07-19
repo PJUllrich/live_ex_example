@@ -14,6 +14,6 @@ defmodule LiveViewExampleWeb.Router do
   scope "/", LiveViewExampleWeb do
     pipe_through :browser
 
-    live "/", IndexLive
+    live "/", ItemsLive
   end
 end

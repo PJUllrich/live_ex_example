@@ -36,7 +36,7 @@ defmodule LiveViewTest.MixProject do
       {:phoenix_pubsub, "~> 2.0"},
       {:phoenix_html, "~> 2.14.3"},
       {:phoenix_live_view, "~> 0.15.7"},
-      {:live_ex, "~> 0.3.0"},
+      {:live_ex, path: "../live_ex"},
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
