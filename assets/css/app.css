@@ -1,0 +1,35 @@
+/* This file is for your main application css. */
+
+@import "./phoenix.css";
+
+.container {
+  max-width: 70rem;
+}
+
+header {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+#items {
+  overflow: scroll;
+}
+
+.row {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+button {
+  background-color: grey;
+  border: none;
+}
+
+.active {
+  background-color: blue;
+}
